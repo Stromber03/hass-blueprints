@@ -10,17 +10,17 @@
 
 blueprint:
   name: Notification to Close a Window 
-  description: Notification to close windows if it is cold outside
+  description: Notification to close windows
   domain: automation
   input: 
     contact_sensor: 
       name: Contact Sensor
-      description: 'The window or door sensor that triggers the automation.'
+      description: 'Le capteur qui déclenche la notification'
       selector: 
         entity:
           domain: binary_sensor
     first_timer:
-      name: 'First timer'
+      name: 'Premier rappel'
       description: 'The first notification timer (in minutes).'
       default: 10
       selector: 
@@ -30,7 +30,7 @@ blueprint:
           max: 60
           mode: slider
     second_timer:
-      name: 'Second timer'
+      name: 'Second'
       description: 'The second notification timer (in minutes).'
       default: 15
       selector: 
@@ -38,16 +38,6 @@ blueprint:
           min: 1
           step: 1
           max: 60
-          mode: slider
-    temperature:
-      name: 'Temperature'
-      description: 'The outside temperature below which the notification should be sent.'
-      default: 20
-      selector: 
-        number:
-          min: 0
-          step: 1
-          max: 25
           mode: slider
     device_identifier:
       name: Device to notify
@@ -85,10 +75,6 @@ condition:
 - condition: state
   entity_id: !input contact_sensor
   state: 'on'
-- condition: numeric_state
-  entity_id: weather.pihome
-  attribute: temperature
-  below: !input temperature
 
 # Send a notification to the mobile device. 
 action:
